@@ -20,12 +20,12 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="很奇怪我mac下的环境执行命令会不稳定会崩溃，直接使用开发机中的idea吧 gadget2种路径入口： Hessian2 hashCode&#x2F;equals&#x2F;compareTo except构造obj触发toString 1Content-Type: x-application&#x2F;hessian or application&#x2F;x-hessian    漏洞原理漏洞原理1调用栈如下 1">
+  <meta name="description" content="简单分析了hessian反序列化的原因，构造多种payload来加载字节码、JNDI、命令执行、waf绕过等等">
 <meta property="og:type" content="article">
 <meta property="og:title" content="hessian反序列化">
 <meta property="og:url" content="http://example.com/2022/04/09/hessian%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/index.html">
 <meta property="og:site_name" content="Zad&#39;s blog">
-<meta property="og:description" content="很奇怪我mac下的环境执行命令会不稳定会崩溃，直接使用开发机中的idea吧 gadget2种路径入口： Hessian2 hashCode&#x2F;equals&#x2F;compareTo except构造obj触发toString 1Content-Type: x-application&#x2F;hessian or application&#x2F;x-hessian    漏洞原理漏洞原理1调用栈如下 1">
+<meta property="og:description" content="简单分析了hessian反序列化的原因，构造多种payload来加载字节码、JNDI、命令执行、waf绕过等等">
 <meta property="og:locale" content="zn_CN">
 <meta property="og:image" content="http://example.com/2022/04/09/hessian%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20230904114641-enlnnn7.png">
 <meta property="og:image" content="http://example.com/2022/04/09/hessian%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20230904115913-hc6q5mn.png">
@@ -57,7 +57,7 @@
 <meta property="og:image" content="http://example.com/2022/04/09/hessian%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20230831165100-3mo9phg.png">
 <meta property="og:image" content="http://example.com/2022/04/09/hessian%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20230831165624-osqm0xw.png">
 <meta property="article:published_time" content="2022-04-09T10:18:15.000Z">
-<meta property="article:modified_time" content="2024-03-09T10:29:32.224Z">
+<meta property="article:modified_time" content="2024-03-09T16:14:41.683Z">
 <meta property="article:author" content="zad">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://example.com/2022/04/09/hessian%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20230904114641-enlnnn7.png">
@@ -210,7 +210,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2024-03-09 18:29:32" itemprop="dateModified" datetime="2024-03-09T18:29:32+08:00">2024-03-09</time>
+                <time title="Modified: 2024-03-10 00:14:41" itemprop="dateModified" datetime="2024-03-10T00:14:41+08:00">2024-03-10</time>
               </span>
 
           
@@ -360,7 +360,10 @@
     <a href="/2022/03/09/cas%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/" rel="prev" title="cas反序列化漏洞">
       <i class="fa fa-chevron-left"></i> cas反序列化漏洞
     </a></div>
-      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/2023/01/26/%E9%87%91%E8%9D%B6%E5%A4%A9%E7%87%95%E6%9D%83%E9%99%90%E7%BB%95%E8%BF%87%E5%88%86%E6%9E%90/" rel="next" title="金蝶天燕权限绕过分析">
+      金蝶天燕权限绕过分析 <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
       </footer>
     
@@ -435,7 +438,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">2</span>
+          <span class="site-state-item-count">3</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
